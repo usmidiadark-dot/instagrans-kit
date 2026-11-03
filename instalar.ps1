@@ -15,12 +15,11 @@ if ($Raiz -match '\s' -or $Raiz -match '[^\x00-\x7F]') {
 function Tem($c) { return [bool](Get-Command $c -ErrorAction SilentlyContinue) }
 function Winget($id) { winget install -e --id $id --accept-source-agreements --accept-package-agreements }
 
-Write-Host "`n1/6 Ferramentas (Node, Python, ffmpeg, Git)"
+Write-Host "`n1/6 Ferramentas (Node, Python, ffmpeg)"
 if (-not (Tem "winget")) { throw "winget nao encontrado. Atualize o 'Instalador de Aplicativo' na Microsoft Store." }
 if (-not (Tem "node"))   { Winget "OpenJS.NodeJS.LTS" }
 if (-not (Tem "python")) { Winget "Python.Python.3.12" }
 if (-not (Tem "ffmpeg")) { Winget "Gyan.FFmpeg" }
-if (-not (Tem "git"))    { Winget "Git.Git" }
 if (-not (Tem "claude")) { Write-Host "Claude Code nao encontrado. Instale: https://claude.com/claude-code e entre com sua conta (comando: claude)." -ForegroundColor Yellow }
 $env:Path = [Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [Environment]::GetEnvironmentVariable("Path","User")
 foreach ($c in "node","python","ffmpeg") { if (-not (Tem $c)) { throw "'$c' ainda nao aparece. Feche e reabra o PowerShell e rode de novo." } }

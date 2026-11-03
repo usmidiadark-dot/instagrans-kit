@@ -35,7 +35,7 @@ def versao(cmd, *args):
 if sys.version_info >= (3, 10): ok(f"Python {sys.version.split()[0]}")
 else: falta("Python 3.10+", "instale o Python 3.12 (instalar.ps1)")
 for c, dica in (("node", "winget install OpenJS.NodeJS.LTS"), ("npm", "vem com o Node"), ("ffmpeg", "winget install Gyan.FFmpeg"),
-                ("ffprobe", "vem com o ffmpeg"), ("git", "winget install Git.Git")):
+                ("ffprobe", "vem com o ffmpeg")):
     p = achar(c)
     ok(f"{c} ({versao(p, '-version' if c.startswith('ff') else '--version')[:40]})") if p else falta(c, dica + " e reabra o terminal")
 if achar("claude"): ok("claude (Claude Code)")
@@ -56,9 +56,9 @@ if n <= 90: ok(f"caminho do kit ({n} caracteres)")
 else: falta(f"caminho do kit longo ({n})", "mova para algo curto, ex.: C:\\INSTAGRANS-KIT")
 for rel in ("CLAUDE.md", "REGRAS-UNIVERSAIS.md", "perfis.yaml", "_modelo-perfil/perfil.yaml", "_sistema/orquestrador/orquestrador.py",
             "_sistema/orquestrador/fila.py", "_sistema/orquestrador/render.py", "_sistema/orquestrador/criar_perfil.py", "_sistema/orquestrador/refs.py"):
-    ok(rel) if (ROOT / rel).exists() else falta(rel, "baixe o kit de novo (git pull) — arquivo do motor sumiu")
+    ok(rel) if (ROOT / rel).exists() else falta(rel, "baixe o kit de novo (baixe o kit de novo ou rode atualizar.ps1) — arquivo do motor sumiu")
 for s in ("criar-perfil", "analisar-refs", "produzir", "qa"):
-    ok(f"skill {s}") if (ROOT / ".claude" / "skills" / s / "SKILL.md").exists() else falta(f"skill {s}", "git pull")
+    ok(f"skill {s}") if (ROOT / ".claude" / "skills" / s / "SKILL.md").exists() else falta(f"skill {s}", "rode _sistema/atualizar.ps1")
 
 # 4. trava do projeto (hooks)
 cfg = ROOT / ".claude" / "settings.json"
@@ -67,7 +67,7 @@ try:
     hooks = [h["command"] for g in j.get("hooks", {}).values() for b in g for h in b.get("hooks", [])]
     ok(f".claude/settings.json ({len(hooks)} hooks)")
 except Exception as e:
-    falta(".claude/settings.json", f"git pull ({e.__class__.__name__})")
+    falta(".claude/settings.json", f"rode _sistema/atualizar.ps1 ({e.__class__.__name__})")
 
 # 5. .env e perfis
 ok(".env") if (ROOT / ".env").exists() else falta(".env", "copie .env.example para .env e preencha o que for usar")

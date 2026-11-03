@@ -11,7 +11,7 @@ Antes: a pessoa que mantém o kit precisa ter te convidado para o repositório p
 ```
 Instale o INSTAGRANS-KIT neste computador (Windows) e deixe tudo funcionando, sem depender de mim para resolver erros. Responda em português simples.
 
-Repositório (privado): <URL-DO-REPOSITORIO>
+Repositório (privado): https://github.com/usmidiadark-dot/instagrans-kit.git
 
 Faça nesta ordem:
 1. Pergunte (com opções) em qual pasta instalar. Recomende C:\INSTAGRANS-KIT. O caminho precisa ter no máximo 60 caracteres e, de preferência, sem espaço nem acento.

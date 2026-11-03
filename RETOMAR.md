@@ -11,6 +11,6 @@
 - `.claude/settings.json` criado (hooks de contexto/trava/avisos com `$CLAUDE_PROJECT_DIR` + permissões); hooks rodaram sem erro fora de sessão, falta ver numa sessão real.
 - `instalar.ps1` num Windows limpo (winget, Git, Node, Python, ffmpeg); QA real com avaliadores; mix/voz/post nunca rodados no kit.
 - Plugin `gates.py` testado só com perfil de teste; `.mcp.json` do ElevenLabs (`uvx elevenlabs-mcp`) não conferido.
-- Git: `git init` feito no kit, nada commitado nem enviado (criar o repositório privado e dar `git push`).
+- Git: repositório privado https://github.com/usmidiadark-dot/instagrans-kit (branch main). Falta convidar cada pessoa em Settings → Collaborators e testar o COMECE-AQUI.md num PC limpo.
 - Regra do Windows: caminho do kit curto (< 90 caracteres), senão o Chrome do Remotion não abre.
 - Edição de teste real de um perfil novo (refs reais → estilo → vídeo) ainda não feita.

@@ -1,0 +1,7 @@
+Coloque aqui os videos de referencia do estilo (mp4, mov, webm), de 3 a 10.
+Links: um por linha em links.txt (linhas com # sao comentario).
+Depois rode (na raiz do kit):
+  python _sistema/orquestrador/refs.py baixar  {{PASTA}}
+  python _sistema/orquestrador/refs.py analisar {{PASTA}}
+e peca ao Claude: "analise as refs do perfil {{PASTA}}".
+Use so referencias de estilo (ritmo, cor, camera, tipografia). Nao copie marca, rosto, voz nem arte de terceiros.

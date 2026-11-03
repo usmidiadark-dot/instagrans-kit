@@ -1,0 +1,20 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      { "hooks": [ { "type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/_sistema/orquestrador/ctx_guard.py\"", "timeout": 10 } ] },
+      { "hooks": [ { "type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/_sistema/avisos_hook.py\"", "timeout": 10 } ] }
+    ],
+    "Stop": [
+      { "hooks": [ { "type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/_sistema/orquestrador/travas.py\" batida", "timeout": 15 } ] }
+    ],
+    "SessionEnd": [
+      { "hooks": [ { "type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/_sistema/orquestrador/travas.py\" fim", "timeout": 15 } ] }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(node:*)", "Bash(npm:*)", "Bash(npx remotion:*)", "Bash(python:*)", "Bash(ffmpeg:*)", "Bash(ffprobe:*)",
+      "Bash(cp:*)", "Bash(mv:*)", "Bash(mkdir:*)", "Bash(ls:*)", "Bash(git status:*)", "Bash(git diff:*)", "Bash(git log:*)"
+    ]
+  }
+}

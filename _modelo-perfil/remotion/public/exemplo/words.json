@@ -1,0 +1,19 @@
+[
+ {"w": "Lightning", "start": 0.20, "end": 0.70},
+ {"w": "is", "start": 0.70, "end": 0.85},
+ {"w": "five", "start": 0.85, "end": 1.15},
+ {"w": "times", "start": 1.15, "end": 1.50},
+ {"w": "hotter", "start": 1.55, "end": 1.95},
+ {"w": "than", "start": 1.95, "end": 2.10},
+ {"w": "the", "start": 2.10, "end": 2.20},
+ {"w": "surface", "start": 2.20, "end": 2.60},
+ {"w": "of", "start": 2.60, "end": 2.70},
+ {"w": "the", "start": 2.70, "end": 2.80},
+ {"w": "sun.", "start": 2.80, "end": 3.20},
+ {"w": "One", "start": 5.00, "end": 5.20},
+ {"w": "bolt", "start": 5.20, "end": 5.45},
+ {"w": "reaches", "start": 5.45, "end": 5.80},
+ {"w": "thirty", "start": 5.80, "end": 6.05},
+ {"w": "thousand", "start": 6.05, "end": 6.30},
+ {"w": "degrees.", "start": 6.30, "end": 6.40}
+]

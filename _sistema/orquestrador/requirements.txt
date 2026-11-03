@@ -1,0 +1,11 @@
+pyyaml
+jsonschema
+requests
+python-dotenv
+faster-whisper
+pyloudnorm
+soundfile
+pillow
+tzdata
+numpy
+scipy

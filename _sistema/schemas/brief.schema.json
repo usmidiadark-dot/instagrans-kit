@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "required": [
+    "profile",
+    "topic",
+    "angle",
+    "format"
+  ],
+  "properties": {
+    "profile": {
+      "type": "string"
+    },
+    "topic": {
+      "type": "string"
+    },
+    "angle": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

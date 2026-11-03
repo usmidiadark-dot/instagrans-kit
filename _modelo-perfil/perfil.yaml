@@ -1,0 +1,46 @@
+# Config do perfil {{HANDLE}}. Todas as chaves: _sistema/orquestrador/CHAVES-PERFIL.md
+pasta: {{PASTA}}
+handle: "{{HANDLE}}"
+prefixo: {{PREFIXO}}
+status: ativo
+nicho: "{{NICHO}}"
+cor: ["#0B7F6F", "#0F1A20"]        # destaque, fundo (cartao do Painel)
+idioma_conteudo: {{IDIOMA}}
+producao_auto: false               # so ligue depois da edicao de teste aprovada
+fila_alvo: 3
+horarios: ["09:00", "19:00"]       # fuso de perfis.yaml -> padrao.fuso
+
+# Publicacao (nomes das variaveis do .env; os valores ficam so la)
+user_id_env: IG_USER_ID_{{PREFIXO_UP}}
+token_env: IG_TOKEN_{{PREFIXO_UP}}
+
+# Render (composicoes do remotion/src/index.ts)
+composicao: {edicao: Edicao, capa: Capa}
+
+# Regras universais (REGRAS-UNIVERSAIS.md)
+ritmo:
+  gancho_ate_s: 3
+  seguir: {momento: final, duracao_s: [1.5, 2.5]}   # meio | final | nenhum
+  card_final: seguir
+qualidade:
+  hud: true
+  area_segura: [285, 1635, 40, 1040]
+  max_inserts_juntos: 2
+  formato_varia: true
+legenda: {licao_rapida: true, caracteres: [120, 450]}
+qa: {corte: 6.8}
+
+# Grade (ciclo de cores da capa, em ordem) — preencha apos o estilo
+grade:
+  ciclo: ["#0B7F6F", "#E0A030", "#3A5BD9"]
+
+# Hashtags: 3 fixas + banco de 12+ variaveis
+hashtags:
+  fixas: ["#fixa1", "#fixa2", "#fixa3"]
+  variaveis: ["#v01", "#v02", "#v03", "#v04", "#v05", "#v06", "#v07", "#v08", "#v09", "#v10", "#v11", "#v12"]
+
+# Voz (conector ElevenLabs). Sem narracao: apague este bloco.
+voz: {voice_id: A_DEFINIR, modelo: eleven_v4}
+
+# Oferta/DM/cross-post: desligados. Ligue so se o perfil tiver produto (veja CHAVES-PERFIL.md, secao 7 e 10)
+sem_cta_sempre: true

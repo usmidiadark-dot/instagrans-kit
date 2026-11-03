@@ -1,0 +1,125 @@
+{
+ "profile": "modelo",
+ "edition": "modelo-000",
+ "title": "Lightning vs the Sun",
+ "format": "fato-rapido",
+ "duration_s": 8.2,
+ "gancho": {
+  "texto": "Hotter than the Sun",
+  "sub": "a single lightning bolt"
+ },
+ "shots": [
+  {
+   "n": 1,
+   "beat": "gancho",
+   "t_start": 0,
+   "t_end": 3.2,
+   "vo": "Lightning is five times hotter than the surface of the sun.",
+   "camera": {
+    "plane": "geral",
+    "move": "push"
+   },
+   "layers": [
+    "fundo",
+    "nuvens",
+    "raio"
+   ]
+  },
+  {
+   "n": 2,
+   "beat": "pausa-seguir",
+   "t_start": 3.2,
+   "t_end": 5.0,
+   "camera": {
+    "plane": "medio",
+    "move": "pan"
+   },
+   "layers": [
+    "fundo",
+    "nuvens",
+    "raio"
+   ]
+  },
+  {
+   "n": 3,
+   "beat": "dado",
+   "t_start": 5.0,
+   "t_end": 6.5,
+   "vo": "One bolt reaches thirty thousand degrees.",
+   "camera": {
+    "plane": "detalhe",
+    "move": "orbita"
+   },
+   "layers": [
+    "fundo",
+    "nuvens",
+    "raio"
+   ]
+  },
+  {
+   "n": 4,
+   "beat": "final",
+   "t_start": 6.5,
+   "t_end": 8.2,
+   "camera": {
+    "plane": "geral",
+    "move": "pull"
+   },
+   "layers": [
+    "fundo",
+    "nuvens",
+    "raio"
+   ]
+  }
+ ],
+ "hud": {
+  "rotulo": "temp",
+  "passos": [
+   {
+    "t": 0,
+    "v": "5,500 °C"
+   },
+   {
+    "t": 1.6,
+    "v": "x5"
+   },
+   {
+    "t": 5.2,
+    "v": "30,000 °C"
+   }
+  ]
+ },
+ "dados": [
+  {
+   "t": 5.2,
+   "ate": 6.5,
+   "valor": "30,000",
+   "unidade": "°C",
+   "rotulo": "one lightning bolt"
+  }
+ ],
+ "seguir": {
+  "t": 3.4,
+  "dur": 1.6,
+  "texto": "Follow for more",
+  "arroba": "@seu.perfil"
+ },
+ "oferta": {
+  "t0": 6.5,
+  "card": {
+   "tag": "FREE GUIDE",
+   "titulo": "Storm Science 101",
+   "sub": "link in bio"
+  }
+ },
+ "capa": {
+  "texto": "Hotter than the Sun?",
+  "sub": "lightning",
+  "fundo": "#3A5BD9",
+  "t": 1.0
+ },
+ "legenda": {
+  "porBloco": 4
+ },
+ "caption": "Lightning vs the Sun\n1. A single bolt heats the air around it to about 30,000 °C\n2. The Sun's visible surface is only about 5,500 °C\n3. So for a split second, lightning is roughly five times hotter than the Sun"
+}

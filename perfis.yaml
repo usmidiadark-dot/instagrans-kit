@@ -1,0 +1,25 @@
+# VALORES COMUNS A TODOS OS PERFIS (padrao) + a ordem dos perfis. Cada perfil tem o seu arquivo: <pasta>/perfil.yaml.
+# O que é de um perfil só (horários, fila_alvo, voz, oferta, ritmo, qualidade...) mora no arquivo dele e não influencia os outros.
+# Chave que o perfil não define cai no valor daqui (onde o motor aceita padrão; lista completa em _sistema/orquestrador/CHAVES-PERFIL.md).
+# Leitura de tudo: _sistema/orquestrador/perfis_cfg.py → carrega().
+# publicacao: graph-api | chrome-assistido | manual
+# aprovacao: automatico (QA) | cada-post
+
+padrao:
+  publicacao: graph-api
+  aprovacao: automatico          # o QA automático decide; reprovado vai para reviews/falhas com o motivo
+  fuso: America/New_York         # fuso dos horários de postagem (perfil.yaml → horarios)
+  fuso_painel: America/Sao_Paulo # hora mostrada no Painel
+  fila_alvo: 3                   # vídeos prontos em posts/04-aprovado por perfil; abaixo disso a produção automática repõe
+  producao_max_por_noite: 1      # edições por perfil quando o orquestrador roda com --perfil (o agendador faz 1 por perfil por rodada)
+  producao: "a cada 30 min"      # texto mostrado no Painel (quem agenda é o agendador.ps1)
+  pausado: false                 # true suspende a publicação de todos os perfis
+  ferramentas_mcp:               # conectores MCP liberados para a sessão automática de produção (claude -p)
+    - mcp__claude_ai_ElevenLabs  # voz
+  cloudflare: false              # true: vídeo longo recusado pelo upload direto sobe por link (deploy de prévia no Cloudflare Pages, npx wrangler)
+  legenda:
+    licao_rapida: true           # legenda = título + 3 linhas numeradas, 120–450 caracteres (sem contar as hashtags)
+  qa:
+    corte: 6.8                   # nota de corte da média e de cada item do QA
+
+ordem: []   # pastas dos perfis, na ordem dos relatórios e do Painel. Ex.: [meu-perfil, outro-perfil]

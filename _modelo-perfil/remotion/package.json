@@ -1,0 +1,20 @@
+{
+  "name": "modelo-perfil-remotion",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "tipos": "tsc --noEmit",
+    "teste-still": "remotion still src/index.ts Edicao out/teste.png --frame=45",
+    "teste-video": "remotion render src/index.ts Edicao out/teste.mp4 --frames=0-89 --muted"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.538",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.538"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "typescript": "5.6.3"
+  }
+}

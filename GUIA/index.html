@@ -1,0 +1,206 @@
+<title>Guia do Kit INSTAGRANS</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: guia de bancada, trilho de navegação no topo, seções em faixas largas com o fluxo como peça central. */
+:root{
+  --bg:#f2f4f6; --panel:#ffffff; --fg:#14202b; --mute:#5a6a77; --line:#d5dce2;
+  --accent:#0b7f6f; --accent-soft:#dcf1ed; --warn:#b4570a; --warn-soft:#fbe9d6; --code:#e9edf1;
+  --display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --body:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f171e; --panel:#17222b; --fg:#e6edf2; --mute:#97a8b5; --line:#2b3a46;
+  --accent:#41c7b2; --accent-soft:#12372f; --warn:#f0a35a; --warn-soft:#3a2713; --code:#0b1218; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f171e; --panel:#17222b; --fg:#e6edf2; --mute:#97a8b5; --line:#2b3a46;
+  --accent:#41c7b2; --accent-soft:#12372f; --warn:#f0a35a; --warn-soft:#3a2713; --code:#0b1218; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+.w{max-width:960px;margin:0 auto}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin:0 -16px;padding:10px 16px;overflow-x:auto;white-space:nowrap}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+nav a{display:inline-block;color:var(--mute);text-decoration:none;font-size:14px;font-weight:500;padding:4px 12px;border-radius:999px}
+nav a:hover,nav a:focus-visible{background:var(--accent-soft);color:var(--accent);outline:none}
+h1,h2,h3{font-family:var(--display);line-height:1.1;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:700;letter-spacing:-.02em}
+h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:700;letter-spacing:-.01em;margin-bottom:8px}
+h3{font-size:1.1rem;font-weight:700;margin-bottom:4px}
+header{padding:56px 0 32px}
+header p{max-width:62ch;font-size:1.15rem;color:var(--mute);margin:16px 0 0}
+section{padding:44px 0 8px;scroll-margin-top:56px}
+.lead{color:var(--mute);max-width:62ch;margin:0 0 24px}
+code,.cmd{font-family:var(--mono);font-size:.88em}
+code{background:var(--code);padding:1px 6px;border-radius:4px}
+.cmd{display:flex;gap:8px;align-items:center;background:var(--code);border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin:8px 0;overflow-x:auto}
+.cmd span{flex:1;white-space:pre;min-width:0}
+.cmd button{font:500 12px var(--body);border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:4px;padding:4px 9px;cursor:pointer}
+.cmd button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* fluxo */
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;counter-reset:s}
+.flow li{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px;position:relative;counter-increment:s}
+.flow li::before{content:counter(s);font:700 13px var(--mono);color:var(--accent);display:block;margin-bottom:6px}
+.flow li.key{border-color:var(--accent);background:var(--accent-soft)}
+.flow b{display:block;font-family:var(--display);font-size:1.05rem}
+.flow small{color:var(--mute);display:block;margin-top:4px;line-height:1.4}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px;min-width:0}
+.card p{margin:4px 0 0;color:var(--mute);font-size:.95rem}
+.tag{font:500 12px var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+.note{background:var(--warn-soft);border-left:4px solid var(--warn);padding:12px 14px;border-radius:0 6px 6px 0;margin:16px 0}
+pre.tree{background:var(--code);border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto;font:13px/1.55 var(--mono);margin:0}
+details{background:var(--panel);border:1px solid var(--line);border-radius:8px;margin:8px 0}
+summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none}
+summary::after{content:"+";float:right;color:var(--accent);font-family:var(--mono)}
+details[open] summary::after{content:"–"}
+details>div{padding:0 16px 14px}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mute)}
+tr:last-child td{border-bottom:0}
+footer{padding:40px 0 0;color:var(--mute);font-size:.9rem}
+@media (prefers-reduced-motion:no-preference){nav a{transition:background .15s}}
+</style>
+
+<nav aria-label="Seções"><div class="w">
+  <a href="#visao">Visão geral</a><a href="#instalar">Instalar</a><a href="#perfil">Criar perfil</a><a href="#regras">Regras fixas</a><a href="#pastas">Pastas</a><a href="#estender">Estender</a><a href="#dia">Dia a dia</a><a href="#ajuda">Problemas</a>
+</div></nav>
+
+<div class="w">
+<header id="visao">
+  <h1>Guia do Kit INSTAGRANS</h1>
+  <p>Um estúdio que cria perfis de Reels de qualquer assunto. Você dá vídeos de referência e links, o Claude copia o estilo em código, e o perfil passa a produzir, conferir a qualidade e postar sozinho.</p>
+</header>
+
+<section>
+  <div class="grid">
+    <div class="card"><span class="tag">Entra</span><h3>Referências</h3><p>Vídeos numa pasta e links num arquivo de texto. Nada de estilo travado: cada perfil nasce do que você mostrar.</p></div>
+    <div class="card"><span class="tag">Roda</span><h3>Produção automática</h3><p>Pauta, roteiro, voz, cena, render, QA e fila. A cada 30 minutos o sistema repõe a fila do perfil.</p></div>
+    <div class="card"><span class="tag">Garante</span><h3>Regras que não mudam</h3><p>Gancho nos primeiros segundos, pausa para pedir para seguir, área segura do feed, áudio mixado e nota mínima no QA.</p></div>
+  </div>
+</section>
+
+<section id="instalar">
+  <h2>Instalar em outro computador</h2>
+  <p class="lead">Windows 11. A pasta do kit é a que você escolher; o instalador grava onde ela está.</p>
+  <div class="card" style="border-color:var(--accent);background:var(--accent-soft);margin-bottom:16px">
+    <span class="tag">Jeito recomendado</span>
+    <h3>Deixe o Claude instalar tudo</h3>
+    <p style="color:var(--fg)">Abra o Claude Code em qualquer pasta e cole o texto do arquivo <code>COMECE-AQUI.md</code>. Ele pergunta onde instalar, baixa o kit, instala as ferramentas, arruma os erros sozinho e confere tudo com <code>python _sistema/verificar.py</code>. Pede você só para login e para colar chaves direto no arquivo, nunca no chat.</p>
+  </div>
+  <p class="lead">Ou, se preferir fazer à mão:</p>
+  <ol class="flow">
+    <li><b>Baixar o kit</b><small>Clone o repositório privado numa pasta sua (caminho curto, sem acento).</small></li>
+    <li><b>Instalar Claude Code</b><small>E entrar com a sua conta. Cada pessoa usa a própria.</small></li>
+    <li><b>Rodar o instalador</b><small>Instala Node, Python, ffmpeg e Git, pacotes, e cria o arquivo de chaves.</small></li>
+    <li><b>Preencher o .env</b><small>Só o que for usar: Meta/Instagram, ElevenLabs. Nenhuma chave vem no kit.</small></li>
+    <li class="key"><b>Abrir o Claude na pasta</b><small>Digite <code>claude</code> dentro da pasta do kit e peça: “quero criar um perfil novo”.</small></li>
+  </ol>
+  <div class="cmd"><span>git clone &lt;endereço-do-repositório&gt; C:\INSTAGRANS-KIT
+cd C:\INSTAGRANS-KIT
+powershell -ExecutionPolicy Bypass -File .\instalar.ps1</span><button type="button" data-copy>Copiar</button></div>
+  <div class="note"><b>Pasta curta:</b> use um caminho de até uns 60 caracteres (o Windows trava o vídeo em caminhos muito longos). <b>Fixo, sem perder nada:</b> escolha a pasta uma vez e não mova. Vídeos, perfis e configurações ficam dentro dela e não entram nas atualizações do Git. Se precisar mudar de lugar, mova a pasta inteira e rode o instalador de novo.</div>
+</section>
+
+<section id="perfil">
+  <h2>Criar um perfil novo</h2>
+  <p class="lead">O caminho é sempre o mesmo, para qualquer assunto. O passo 3 é o que torna o sistema flexível.</p>
+  <ol class="flow">
+    <li><b>Conversa</b><small>Assunto, idioma, @, com voz ou só efeitos.</small></li>
+    <li><b>Pasta do perfil</b><small>Copiada do modelo vazio e registrada na lista de perfis.</small></li>
+    <li class="key"><b>Refs: vídeos + links</b><small>Ponha em <code>refs/</code>. O sistema tira quadros, paleta, cortes e volume.</small></li>
+    <li class="key"><b>Estilo extraído</b><small>O Claude olha as folhas e escreve o estilo, depois monta as cenas em código.</small></li>
+    <li><b>Folha de aprovação</b><small>3 capas, 1 cena e a grade 3×3. Você aprova antes de produzir.</small></li>
+    <li><b>Edição de teste</b><small>Com você olhando. Passa no QA e em folhas de quadros.</small></li>
+    <li><b>Instagram</b><small>Conta profissional, página e token. Teste sem postar.</small></li>
+    <li><b>Ligar o automático</b><small>Só depois do teste aprovado.</small></li>
+  </ol>
+  <details><summary>Comandos do passo 3 e 4</summary><div>
+    <div class="cmd"><span>python _sistema/orquestrador/refs.py baixar meu-perfil</span><button type="button" data-copy>Copiar</button></div>
+    <div class="cmd"><span>python _sistema/orquestrador/refs.py analisar meu-perfil</span><button type="button" data-copy>Copiar</button></div>
+    <p>Depois diga ao Claude: <i>“analise as refs do perfil meu-perfil”</i>. Ele usa a skill <code>analisar-refs</code>, escreve <code>estilo-extraido.md</code> e preenche <code>remotion/src/estilo.ts</code>.</p>
+  </div></details>
+  <details><summary>O que fazer se o resultado não ficou parecido</summary><div>
+    <p>Mande mais vídeos de referência do mesmo tipo (5 a 10 funcionam melhor que 2) e diga o que está diferente em palavras simples, por exemplo “o texto entra mais rápido” ou “o fundo é mais colorido”. O Claude corrige tudo de uma vez, em até 5 rodadas.</p>
+  </div></details>
+</section>
+
+<section id="regras">
+  <h2>Regras que todo perfil cumpre</h2>
+  <p class="lead">Cada regra vira uma checagem automática. O vídeo só entra na fila se passar.</p>
+  <div class="grid">
+    <div class="card"><span class="tag">0–3 s</span><h3>Gancho forte</h3><p>O assunto aparece grande e legível; sem som e sem legenda, em 1 segundo dá para dizer o que é.</p></div>
+    <div class="card"><span class="tag">Seguir</span><h3>Pausa para pedir para seguir</h3><p>Um card curto, no meio ou no fim, na área segura, com o desenho variando a cada vídeo.</p></div>
+    <div class="card"><span class="tag">Feed</span><h3>Área segura</h3><p>Texto e HUD entre y 285 e 1635, no máximo 2 inserts juntos.</p></div>
+    <div class="card"><span class="tag">Som</span><h3>Áudio mixado</h3><p>Voz na frente, trilha com ducking suave, efeitos ajustados.</p></div>
+    <div class="card"><span class="tag">Imagem</span><h3>Sem piscar, fundo vivo</h3><p>Nada recriado por frame. Cores da paleta do perfil, com luz e movimento.</p></div>
+    <div class="card"><span class="tag">QA</span><h3>Nota mínima 6,8</h3><p>Em todos os itens, até 5 rodadas, mais folhas de quadros densas do vídeo pronto.</p></div>
+  </div>
+</section>
+
+<section id="pastas">
+  <h2>Onde fica cada coisa</h2>
+  <p class="lead">Tudo dentro da pasta do kit. As pastas dos seus perfis ficam fora do Git: atualizar o kit não mexe nelas.</p>
+  <pre class="tree">INSTAGRANS-KIT/
+├─ CLAUDE.md               regras lidas pelo Claude em toda conversa
+├─ REGRAS-UNIVERSAIS.md    as regras fixas acima, com os valores
+├─ perfis.yaml             valores comuns + lista dos perfis
+├─ .env                    suas chaves (nunca vai para o Git)
+├─ instalar.ps1            instalação no Windows
+├─ _sistema/               o motor (orquestrador, contratos, painel)
+├─ _modelo-perfil/         perfil vazio + projeto de vídeo neutro
+└─ meu-perfil/             um perfil seu
+   ├─ perfil.yaml          horários, voz, regras do perfil
+   ├─ refs/                vídeos e links de referência
+   ├─ estilo-extraido.md   o estilo, em palavras
+   ├─ remotion/            as cenas, em código
+   ├─ pautas.csv           ideias de vídeo
+   ├─ out/                 vídeos prontos
+   └─ posts/               fila (04-aprovado → 05-publicado)</pre>
+</section>
+
+<section id="estender">
+  <h2>Como estender</h2>
+  <p class="lead">Quatro jeitos de crescer sem mexer no motor.</p>
+  <details open><summary>Novo perfil (qualquer assunto)</summary><div><p>Diga ao Claude “quero criar um perfil novo” e siga as perguntas. Nenhum código do motor muda.</p></div></details>
+  <details><summary>Regra nova só de um perfil</summary><div><p>Crie <code>meu-perfil/gates.py</code> com uma função <code>gates(ctx)</code> que devolve a lista de checagens. A fila a carrega sozinha. O contrato exato está em <code>_sistema/orquestrador/CHAVES-PERFIL.md</code>.</p></div></details>
+  <details><summary>Novo formato de vídeo dentro de um perfil</summary><div><p>Descreva o formato em <code>formatos.md</code>. Antes de produzir, o Claude faz capa por tipo, variações de HUD e card, a folha de aprovação e só então o vídeo.</p></div></details>
+  <details><summary>Nova rede ou serviço</summary><div><p>Um arquivo novo em <code>_sistema/orquestrador/</code> que lê o item aprovado da fila (como <code>crosspost.py</code>). Chaves novas entram no <code>.env.example</code> e na tabela de chaves.</p></div></details>
+</section>
+
+<section id="dia">
+  <h2>Dia a dia</h2>
+  <div class="tw"><table>
+    <tr><th>Quero</th><th>Faço</th></tr>
+    <tr><td>Ver o estado de tudo</td><td><code>python _sistema/orquestrador/orquestrador.py status</code></td></tr>
+    <tr><td>Produzir o próximo vídeo</td><td>No Claude: “produza o próximo vídeo do meu-perfil”</td></tr>
+    <tr><td>Conferir a fila</td><td><code>python _sistema/orquestrador/fila.py</code></td></tr>
+    <tr><td>Abrir o painel</td><td><code>_sistema\painel\abrir-painel.cmd</code> (abre no navegador)</td></tr>
+    <tr><td>Pausar um perfil</td><td>Em <code>perfil.yaml</code>: <code>producao_auto: false</code></td></tr>
+    <tr><td>Atualizar o kit</td><td><code>git pull</code> (seus perfis não são tocados)</td></tr>
+  </table></div>
+</section>
+
+<section id="ajuda">
+  <h2>Problemas comuns</h2>
+  <details><summary>“node / python / ffmpeg não encontrado”</summary><div><p>Feche e abra o PowerShell e rode o instalador de novo. O Windows só enxerga programas novos em janelas novas.</p></div></details>
+  <details><summary>O vídeo ficou reprovado várias vezes</summary><div><p>O Claude lista tudo de uma vez e corrige em até 5 rodadas. Se continuar, ele pergunta a você o que fazer, em vez de insistir.</p></div></details>
+  <details><summary>Quero testar sem postar</summary><div><p>Perfil novo nasce com o automático desligado. Nada é postado até você ligar <code>producao_auto</code> e configurar o Instagram.</p></div></details>
+  <details><summary>Duas pessoas no mesmo perfil</summary><div><p>Antes de mexer numa edição, o Claude “pega a trava” dela. Se outra conversa estiver nela, ele para e avisa.</p></div></details>
+</section>
+
+<footer>Cada pessoa usa as próprias contas (Instagram/Meta, ElevenLabs, Claude). Nenhuma chave viaja no kit.</footer>
+</div>
+<script>
+document.querySelectorAll('[data-copy]').forEach(function(b){
+  b.addEventListener('click',function(){
+    var t=b.parentNode.querySelector('span').innerText;
+    function ok(){b.textContent='Copiado';setTimeout(function(){b.textContent='Copiar'},1400)}
+    try{navigator.clipboard.writeText(t).then(ok,function(){sel()})}catch(e){sel()}
+    function sel(){var r=document.createRange();r.selectNodeContents(b.parentNode.querySelector('span'));var s=getSelection();s.removeAllRanges();s.addRange(r)}
+  });
+});
+</script>

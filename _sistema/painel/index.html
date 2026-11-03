@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Painel">
+<title>Painel de Produção</title>
+<style>
+:root{--bg:#0f1115;--card:#181b22;--tx:#eef0f4;--mut:#8b93a3;--ok:#35c759;--warn:#ffb020;--bad:#ff4d4f;--pausa:#6c8cff;--off:#4a505c;
+  --k-bg:var(--card);--k-fg:var(--tx);--k-mu:var(--mut);--k-line:#2a2f39;--k-pan:#1d2129;--k-rad:14px;--k-ac:#B6FF00;--k-ac2:#B6FF00;--k-disp:system-ui,-apple-system,"Segoe UI",sans-serif;--k-body:system-ui,-apple-system,"Segoe UI",sans-serif;--k-dsz:1}
+@media (prefers-color-scheme:light){:root{--bg:#f3f4f7;--card:#fff;--tx:#14171d;--mut:#667085;--off:#b8bdc7;--k-line:#dfe3ea;--k-pan:#f7f8fa}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:720px;margin:0 auto;padding:16px}
+.topo{border-radius:16px;padding:20px;margin-bottom:16px;background:var(--card);border-left:8px solid var(--ok)}
+.topo.warn{border-color:var(--warn)}.topo.bad{border-color:var(--bad)}
+.topo h1{margin:0 0 4px;font-size:26px}
+.topo p{margin:0;color:var(--mut)}
+.perfil{background:var(--card);border-radius:14px;padding:14px 16px;margin-bottom:10px;border-left:6px solid var(--ok)}
+.perfil.warn{border-color:var(--warn)}.perfil.bad{border-color:var(--bad)}.perfil.pausa{border-color:var(--pausa)}.perfil.off{border-color:var(--off)}
+.l1{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.nome{font-weight:700;font-size:18px}
+.sit{font-weight:600;font-size:15px}
+.ok .sit{color:var(--ok)}.warn .sit{color:var(--warn)}.bad .sit{color:var(--bad)}.pausa .sit{color:var(--pausa)}.off .sit{color:var(--mut)}
+.l2{color:var(--mut);margin-top:6px;font-size:15px}
+.l2 b{color:var(--tx);font-weight:600}
+.prob{margin-top:8px;font-size:15px;color:var(--warn)}
+.bad .prob{color:var(--bad)}
+.tar{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 8px}
+.tar span{background:var(--card);border-radius:999px;padding:6px 12px;font-size:14px}
+.tar .t-ok::before{content:"● ";color:var(--ok)}.tar .t-bad::before{content:"● ";color:var(--bad)}
+.rod{color:var(--mut);font-size:13px;text-align:center;margin:16px 0}
+h2{font-size:14px;color:var(--mut);margin:20px 0 8px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+
+a{color:inherit}
+.perfil{padding:0;overflow:hidden;cursor:pointer;background:var(--k-bg);color:var(--k-fg);border:1px solid var(--k-line);border-left-width:6px;border-radius:var(--k-rad);display:block;text-decoration:none}
+.perfil .strip{height:70px;position:relative;overflow:hidden;opacity:.9}
+.perfil .strip svg{position:absolute;left:0;top:50%;width:100%;transform:translateY(-50%)}
+.perfil .corpo{padding:12px 14px 14px}
+.perfil .nome{font-family:var(--k-disp);font-size:calc(17px*var(--k-dsz));font-weight:400}
+.perfil .l2,.perfil .l2 b{color:var(--k-mu)}.perfil .l2 b{color:var(--k-fg)}
+.perfil .go{color:var(--k-ac2);font-size:13px;margin-top:6px}
+.vtopo{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.voltar{background:var(--card);color:var(--tx);border:0;border-radius:999px;padding:10px 16px;font-size:15px}
+.vhead{background:var(--k-bg);color:var(--k-fg);border:1px solid var(--k-line);border-radius:calc(var(--k-rad) + 8px);overflow:hidden;margin-bottom:12px}
+.vhead .strip{height:110px;position:relative;overflow:hidden}.vhead .strip svg{position:absolute;left:0;top:50%;width:100%;transform:translateY(-50%)}
+.vhead .corpo{padding:12px 16px 16px}
+.vhead .nome{font-family:var(--k-disp);font-size:calc(22px*var(--k-dsz));color:var(--k-fg)}
+.vhead .l2,.vhead .l2 b{color:var(--k-mu)}.vhead .l2 b{color:var(--k-fg)}
+.sec{background:var(--k-pan);color:var(--k-fg);border:1px solid var(--k-line);border-radius:var(--k-rad);padding:6px 12px 12px;margin-bottom:12px}
+.sec h2{color:var(--k-ac);font-family:var(--k-body);margin:10px 0 6px}
+.v{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:10px 0;border-top:1px solid var(--k-line);align-items:center}
+.v:first-of-type{border-top:0}
+.v img{width:64px;height:85px;object-fit:cover;border-radius:calc(var(--k-rad)/2 + 2px);background:var(--k-bg)}
+.v .t{font-size:15px;line-height:1.3;font-weight:600;color:var(--k-fg)}
+.v .m{font-size:13px;color:var(--k-mu);margin-top:3px}
+.v a.btn{display:inline-block;margin-top:6px;background:var(--k-ac);color:var(--k-bg);padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;text-decoration:none}
+.vazio{color:var(--k-mu);padding:10px 0;font-size:14px}
+.ok .sit{color:var(--ok)}.perfil .sit{color:var(--k-ac)}.perfil.warn .sit{color:var(--warn)}.perfil.bad .sit{color:var(--bad)}
+
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.chip{border:2px solid var(--off);border-radius:12px;padding:8px 6px;text-align:center;background:rgba(0,0,0,.18)}
+.chip small{display:block;font-size:11px;letter-spacing:.04em;text-transform:uppercase;opacity:.8;color:var(--k-mu)}
+.chip b{display:block;font-size:20px;font-weight:800;margin-top:2px;color:var(--k-fg)}
+.chip.sim{border-color:#B6FF00}.chip.sim b{color:#B6FF00}
+.chip.nao{border-color:var(--bad)}.chip.nao b{color:var(--bad)}
+.chip.meio{border-color:var(--warn)}.chip.meio b{color:var(--warn)}
+.chip.pausa{border-color:var(--pausa)}.chip.pausa b{color:var(--pausa)}
+.prox{margin-top:8px;font-size:14px;color:var(--k-mu)}.prox b{color:var(--k-fg)}
+
+.manual{margin-top:8px;border:2px solid #B6FF00;border-radius:10px;padding:8px 10px;background:rgba(182,255,0,.12)}.manual .mt{font-weight:800;font-size:12px;letter-spacing:.03em}.manual .mi{font-size:12.5px;margin-top:4px;opacity:.8}.manual .mi.p1{font-size:15px;opacity:1}.manual small{display:block;font-size:10.5px;opacity:.7}.manual u{color:#ff5a5a;font-weight:700}
+.nid{color:var(--k-ac,#B6FF00);white-space:nowrap}
+.lista .dono{display:block;font-size:12px;opacity:.85;margin-top:2px}.lista .dono u{text-decoration:none;color:#B6FF00;font-weight:700}
+.hor{margin-top:8px;font-size:12px;color:var(--k-mu);opacity:.85;line-height:1.5}
+.hor span{white-space:nowrap}.hor b{font-weight:600;color:var(--k-fg);opacity:.9}
+.hor .pad{font-size:10.5px;opacity:.65;margin-top:2px}.prox small{font-size:10.5px;opacity:.7}
+.alertas{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.al{position:relative;background:var(--bad);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;cursor:help}
+.al.amar{background:var(--warn);color:#111}
+.al .mot{display:none;position:absolute;left:0;top:calc(100% + 6px);z-index:20;width:min(280px,80vw);background:#000;color:#fff;border:1px solid #666;border-radius:10px;padding:8px 10px;font-weight:400;font-size:13px;line-height:1.35;box-shadow:0 6px 20px rgba(0,0,0,.5)}
+.al:not(.fecha):hover .mot,.al.on .mot{display:block}
+.perfil,.vhead{overflow:visible}.perfil .strip,.vhead .strip{border-radius:calc(var(--k-rad) + 6px) calc(var(--k-rad) + 6px) 0 0}
+.onde{display:block;margin-top:8px;padding-top:8px;border-top:1px solid #555;font-size:12px;color:#ddd;word-break:break-all}
+.onde b{display:block;color:#fff;margin-bottom:3px}.onde span{display:block;margin:2px 0}
+.onde .ir{margin-top:8px;color:#B6FF00;font-weight:700;cursor:pointer;word-break:normal}
+.v.pisca{outline:3px solid #B6FF00;outline-offset:4px;border-radius:8px;animation:pc 1.2s 3}
+@keyframes pc{50%{outline-color:transparent}}
+.al .mot::before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px}
+.esp{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;margin:-4px 2px 14px;font-size:12px;color:var(--mut)}
+.esp .l{display:inline-flex;align-items:center;gap:5px;cursor:default}
+.esp .pt{width:8px;height:8px;border-radius:50%;background:#888;flex:none}.esp .espera .pt{background:var(--bad)}.esp .conferir .pt{background:var(--warn)}.esp .emdia .pt{background:var(--ok)}.esp .trabalhando .pt{background:#4aa3ff}
+.esp .espera{color:var(--tx);font-weight:700}
+.topo.tip{position:relative;cursor:help}
+.topo .lista{display:none;position:absolute;left:0;right:0;top:100%;margin-top:-6px;z-index:30;background:#000;color:#fff;border:1px solid #666;border-radius:12px;padding:6px 12px 10px;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.topo .lista::before{content:"";position:absolute;left:0;right:0;top:-14px;height:14px}
+.topo.tip:not(.fecha):hover .lista,.topo.tip.on .lista{display:block}
+.topo .it{display:block;padding:8px 0;border-top:1px solid #333;font-size:14px;cursor:pointer;line-height:1.35}
+.topo .it:first-child{border-top:0}.topo .it b{display:block;color:#fff}.topo .it em{display:block;color:#B6FF00;font-style:normal;font-weight:700;font-size:13px;margin-top:2px}
+.perfil.marcado,.tar.marcado{outline:3px solid #B6FF00;outline-offset:3px}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const hm = b => (b||"").split(" ")[1] || "";
+const dia = b => (b||"").split(" ")[0] || "";
+const capa = p => p ? "/midia?p=" + encodeURIComponent(p) : "";
+// faixa do cartão: gradiente com as cores do perfil (perfil.yaml → cor)
+const corDo = pref => { const p = (D && D.perfis || []).find(x => x.pref === pref); return (p && p.cores) || ["#8a8f98", "#22252b"]; };
+const arte = (pref, ctx) => { const c = corDo(pref); return `<svg viewBox="0 0 400 70" preserveAspectRatio="none" height="140"><defs><linearGradient id="g-${ctx}" x1="0" x2="1"><stop offset="0" stop-color="${esc(c[0])}"/><stop offset="1" stop-color="${esc(c[1])}"/></linearGradient></defs><rect width="400" height="70" fill="url(#g-${ctx})"/></svg>`; };
+const estiloK = pref => `--k-ac:${esc(corDo(pref)[0])};--k-ac2:${esc(corDo(pref)[0])}`;
+function ha(t, agora){
+  if(!t) return "—";
+  const m = Math.max(0, Math.round((agora - t)/60));
+  if(m < 60) return m + " min";
+  const h = Math.floor(m/60);
+  return h < 48 ? h + " h" : Math.floor(h/24) + " dias";
+}
+function falta(min){ if(min == null) return ""; if(min < 60) return "em " + min + " min"; const h = Math.round(min/60); return h < 48 ? "em " + h + " h" : "em " + Math.round(h/24) + " dias"; }
+function classe(p){
+  const crit = (p.motivos||[]).some(m => m.nivel === "crit");
+  if(p.situacao === "fora") return "off";
+  if(crit || p.situacao === "parado") return "bad";
+  if(p.situacao === "programada" || p.situacao === "pausado") return "pausa";
+  if((p.revisar||[]).length || p.situacao === "montando") return "warn";
+  return "ok";
+}
+function problemas(p){
+  const l = (p.revisar||[]).slice();
+  (p.motivos||[]).forEach(m => { if(m.nivel === "crit" && !l.includes(m.texto)) l.push(m.texto); });
+  if(p.falhas_24h) l.push(p.falhas_24h + " reprovação(ões) no QA nas últimas 24 h");
+  return l;
+}
+let D = null;
+function chips(p){
+  const ch = n => (p.chaves||[]).find(c => c.nome === n);
+  const pausa = p.situacao === "programada" || p.situacao === "pausado";
+  const f = p.fila, a = p.alvo;
+  const cf = pausa ? "pausa" : f >= a ? "sim" : f > 0 ? "meio" : "nao";
+  const sim = (c, rot) => p.post_manual && rot !== "Produz" ? `<div class="chip pausa"><small>Posta sozinho</small><b>MANUAL</b></div>` : pausa && rot === "Produz" ? `<div class="chip pausa"><small>Produz sozinho</small><b>PAUSA</b></div>` : `<div class="chip ${c && c.on ? "sim" : "nao"}"><small>${rot === "Produz" ? "Produz sozinho" : "Posta sozinho"}</small><b>${c && c.on ? "SIM" + (rot === "Produz" && c.txt ? " · " + esc(c.txt) : "") : "NÃO"}</b></div>`;
+  return `<div class="chips"><div class="chip ${cf}"><small>Na fila</small><b>${f}/${a}</b></div>${sim(ch("Cria"), "Produz")}${sim(ch("Posta"), "Posta")}</div>`;
+}
+const brDia = off => new Date((D.agora.t + off*86400)*1000).toLocaleDateString("pt-BR", {day:"2-digit", month:"2-digit"});
+function rotDia(q){ const d = dia(q.br); return d === brDia(0) ? "" : d === brDia(1) ? "amanhã " : d + " "; }
+function linhaPadrao(p, ultimo){
+  const f = p.proximo_fila;
+  const prox = f ? `${rotDia(f.quando)}${hm(f.quando.br)} (hora local)${f.falta_min < -35 ? " · atrasado" : ""} <small>${esc(f.id)}</small>` : "sem vídeo agendado";
+  const ult = Math.max(ultimo[p.pref] || 0, (p.ultimo_post && p.ultimo_post.t) || 0);
+  return `</div>${chips(p)}<div class="prox">Próximo post <b>${prox}</b> · Último post há <b>${ha(ult || null, D.agora.t)}</b>`;
+}
+function tg(el, ev){
+  if(ev.target.closest(".mot, .lista")) return;
+  const aberto = el.classList.contains("on") || (el.matches(":hover") && !el.classList.contains("fecha"));
+  if(aberto){ el.classList.remove("on"); el.classList.add("fecha"); } else { el.classList.remove("fecha"); el.classList.add("on"); }
+}
+function fmtMin(m){ m = Math.abs(Math.round(m)); return m < 60 ? m + " min" : m < 2880 ? Math.round(m/60) + " h" : Math.round(m/1440) + " dias"; }
+function alertas(p){
+  const l = [], post = (D.tarefas||[]).find(t => t.nome === "Post");
+  (D.fila||[]).filter(v => v.pref === p.pref && v.falta_min < -35).forEach(v => {
+    let m = `${v.id} devia sair às ${hm(v.quando.br)} (hora local, dia ${dia(v.quando.br)}) e ainda está na fila, ${fmtMin(v.falta_min)} de atraso.`;
+    if(!post || !post.ligada) m += " A tarefa Post do Windows está desligada.";
+    else if(post.resultado_ok === false) m += " A última rodada da tarefa Post deu erro.";
+    else if(D.pausado) m += " A postagem está pausada.";
+    else m += ` A tarefa Post roda a cada 30 min (próxima ${hm(post.proxima && post.proxima.br)}); se não sair, veja o log do Post.`;
+    const nq = v.arq || v.id;
+    l.push({rede:"Instagram", cls:"", m, id:v.id, onde:[`Na página: item “${v.id}” em “Fila para postar” (botão abaixo)`, `Arquivo da fila: ${p.pasta}/posts/04-aprovado/${nq}.json`, `Vídeo: ${p.pasta}/out/${v.id}/video.mp4`, `Tarefa do Windows: “INSTAGRANS Post”; log: _sistema/logs`]});
+  });
+  (D.cross_fila||[]).filter(x => x.pref === p.pref && ["falhou","atrasado","bloqueado"].includes(x.estado)).forEach(x => {
+    const nome = x.plataforma === "youtube" ? "YouTube" : "TikTok";
+    let m = `${x.id} devia ir ao ${nome} às ${hm(x.devido.br)} (hora local, dia ${dia(x.devido.br)})${x.motivo_espera ? ", pela regra: " + x.motivo_espera : ""}.`;
+    if(x.estado === "falhou") m += " Falhou: " + (x.erro || "erro sem texto") + (x.tentativas ? ` (${x.tentativas} tentativas)` : "");
+    else if(x.estado === "bloqueado") m += " Faltam credenciais no .env: " + (x.faltam_no_env||[]).join(", ");
+    else m += " Atrasado e sem erro registrado.";
+    const onde = [`Na página: item “${x.id}” em “Fila para postar” ou “Postados” (botão abaixo)`, `Vídeo: ${p.pasta}/out/${x.id}/video.mp4`];
+    if(x.estado === "falhou") onde.push(`Registro do erro: ${p.pasta}/out/${x.id}/cross_${x.plataforma}_erro.json`);
+    if(x.estado === "falhou" && /words\.json/.test(x.erro||"")) onde.push(`Arquivo que falta: ${p.pasta}/out/${x.id}/words.json`);
+    if(x.estado === "bloqueado") onde.push("Credenciais: arquivo .env na raiz do projeto");
+    onde.push("Regra do cross-post: " + p.pasta + "/perfil.yaml → crosspost");
+    l.push({rede:nome, cls:"amar", m, id:x.id, onde});
+  });
+  if(!l.length) return "";
+  return `<div class="alertas">${l.map(a => `<span class="al ${a.cls}" onclick="event.preventDefault();event.stopPropagation();tg(this,event)" onmouseleave="this.classList.remove('fecha')">⏰ ${a.rede} atrasado<span class="mot">${esc(a.m)}<span class="onde"><b>Onde está cada coisa:</b>${a.onde.map(o => `<span>• ${esc(o)}</span>`).join("")}<span class="ir" onclick="irPara('${a.id}', event)">▶ Mostrar o vídeo na página</span></span></span></span>`).join("")}</div>`;
+}
+function ytTxt(p){
+  const x = (D.cross_fila||[]).filter(v => v.pref === p.pref && v.plataforma === "youtube" && v.estado !== "bloqueado").sort((a,b) => a.devido.t - b.devido.t)[0];
+  if(!x) return "sem fila";
+  const n = (D.cross_fila||[]).filter(v => v.pref === p.pref && v.plataforma === "youtube").length;
+  return `próximo ${rotDia(x.devido)}${hm(x.devido.br)}${n > 1 ? ` (+${n-1} na fila)` : ""}`;
+}
+function horarios(p){
+  const ag = p.agendados || [], pad = (p.horarios||[]).map(h => hm(h.br)).join(" · ");
+  if(!ag.length && !pad) return "";
+  const yt = p.cross && p.cross.youtube && p.cross.youtube.estado === "ligado";
+  const tt = p.cross && p.cross.tiktok && p.cross.tiktok.estado === "ligado";
+  const lista = ag.slice(0, 6).map(a => rotDia(a.quando) + hm(a.quando.br)).join(" · ") + (ag.length > 6 ? ` · +${ag.length-6}` : "");
+  return `<div class="hor"><span>Instagram agendado <b>${ag.length ? lista : "nenhum"}</b></span>${yt ? ` · <span>YouTube <b>${ytTxt(p)}</b></span>` : ""}${tt ? ` · <span>TikTok <b>~30 min depois</b></span>` : ""} <span>(hora local)</span>${pad ? `<div class="pad">padrão do perfil: ${pad}</div>` : ""}</div>`;
+}
+function manual(p){
+  if(!p.post_manual) return "";
+  const l = (D.fila||[]).filter(v => v.pref === p.pref).slice(0, 3);
+  const it = l.map((v, i) => `<div class="mi${i ? "" : " p1"}"><b>${esc(v.id)}</b> · ${rotDia(v.quando)}${hm(v.quando.br)} local (${hm(v.quando.ny)} no fuso de postagem)${v.falta_min < -35 ? " · <u>ATRASADO</u>" : ""}<small>entrega: ${esc(v.arq)}_${esc(v.id)}</small></div>`).join("");
+  return `<div class="manual"><div class="mt">✋ POSTAGEM MANUAL — ${l.length ? "postar primeiro:" : "nada na fila"}</div>${it}</div>`;
+}
+function extra(p){
+  const pr = problemas(p).filter(x => !/^cross-post de /.test(x)).map(x => `<div class="prob">⚠ ${esc(x)}</div>`).join("");
+  const pausa = classe(p) === "pausa" && p.motivo ? `<div class="l2">${esc(p.motivo.split(" / ")[0])}</div>` : "";
+  return manual(p) + alertas(p) + pr + pausa + horarios(p);
+}
+function esperaH(){
+  const l = D.esperando || []; if(!l.length) return "";
+  const ROT = {espera:"espera você", conferir:"pronto p/ conferir", trabalhando:"trabalhando", emdia:"em dia"};
+  return `<div class="esp">` + l.map(x => `<span class="l ${x.estado}" title="${esc(ROT[x.estado] + (x.estado === "trabalhando" ? "" : " · há " + fmtMin(x.min)) + (x.txt ? " — " + x.txt : ""))}"><span class="pt"></span>${esc(x.nome)}</span>`).join("") + `</div>`;
+}
+function home(){
+  const agora = D.agora.t, ultimo = {};
+  (D.no_ar||[]).forEach(v => { if(!v.removido && v.quando && (!ultimo[v.pref] || v.quando.t > ultimo[v.pref])) ultimo[v.pref] = v.quando.t; });
+  const lista = D.perfis.filter(p => p.situacao !== "fora"), fora = D.perfis.filter(p => p.situacao === "fora");
+  const tarBad = (D.tarefas||[]).filter(t => !t.ligada || (!t.nunca_rodou && t.resultado_ok === false));
+  let atencao = tarBad.length, h = "";
+  const itens = [];
+  const TDESC = {Post:"posta os vídeos da fila no Instagram", Producao:"cria os vídeos novos", DM:"responde comentários com DM"};
+  tarBad.forEach(t => itens.push({alvo:"tar", nome:"Tarefa do Windows “" + (t.nome === "Producao" ? "Produção" : t.nome) + "”", txt: (TDESC[t.nome] ? "(" + TDESC[t.nome] + ") " : "") + (t.ligada ? "a última rodada deu erro (código " + t.resultado + ")" : "está desligada"), dono:""}));
+  lista.forEach(p => {
+    const c = classe(p); if(c === "warn" || c === "bad") atencao++;
+    if(c === "warn" || c === "bad"){
+      let t = problemas(p); if(!t.length) t = (p.motivos||[]).filter(m => m.nivel === "warn").map(m => m.texto);
+      if(!t.length) t = [p.rotulo + (p.motivo ? ": " + p.motivo : "")];
+      itens.push({alvo:p.pref, nome:p.handle, txt:t.join(" · "), cls:c, dono:"conversa do perfil " + p.handle});
+    }
+    h += `<a class="perfil k-${p.pref} ${c}" style="${estiloK(p.pref)}" data-pref="${p.pref}" href="#/${p.pref}"><div class="strip">${arte(p.pref, "h"+p.pref)}</div><div class="corpo"><div class="l1"><span class="nome">${esc(p.handle)}</span><span class="sit">${esc(p.rotulo)}</span></div><div class="l2">${linhaPadrao(p, ultimo)}</div>${extra(p)}<div class="go">Fila e vídeos postados ›</div></div></a>`;
+  });
+  const bad = tarBad.length || lista.some(p => classe(p) === "bad");
+  const lst = itens.map(i => `<span class="it" onmouseenter="marca('${i.alvo}',1)" onmouseleave="marca('${i.alvo}',0)" onclick="irCard('${i.alvo}', event)"><b>${esc(i.nome)}</b>${esc(i.txt)}${i.dono ? `<small class="dono">Quem resolve: <u>${esc(i.dono)}</u></small>` : ""}<em>▶ Mostrar onde está</em></span>`).join("");
+  const topo = atencao === 0 ? `<div class="topo"><h1>✅ Tudo funcionando</h1><p>${(() => { const n = (D.esperando||[]).filter(x => x.estado === "espera").length; return n ? `${n} ${n === 1 ? "chat espera" : "chats esperam"} você (bolinhas vermelhas abaixo).` : "Nada precisa de você agora."; })()}</p></div>`
+    : `<div class="topo tip ${bad?"bad":"warn"}" onclick="tg(this,event)" onmouseleave="this.classList.remove('fecha')"><h1>${bad?"🔴":"⚠️"} ${atencao} ${atencao===1?"item pede":"itens pedem"} atenção</h1><p>Passe o mouse (ou toque) para ver quais e onde estão.</p><div class="lista">${lst}</div></div>`;
+  const tar = (D.tarefas||[]).map(x => `<span class="${(!x.ligada || x.resultado_ok === false) ? "t-bad" : "t-ok"}">${x.nome === "Producao" ? "Produção" : esc(x.nome)}${x.ligada ? "" : " (desligada)"} · próx ${hm(x.proxima && x.proxima.br)}</span>`).join("");
+  return topo + esperaH() + h + (fora.length ? `<div class="rod">Fora do estúdio: ${fora.map(p=>esc(p.handle)).join(", ")}</div>` : "")
+    + `<h2>Agendador do Windows</h2><div class="tar" id="tar-box">${tar}</div><div class="rod">Atualizado ${hm(D.agora.br)} (hora local) · atualiza sozinho</div>`;
+}
+function perfilView(pref){
+  const p = D.perfis.find(x => x.pref === pref); if(!p) return `<div class="topo bad"><h1>Perfil não encontrado</h1></div><a class="voltar" href="#/">‹ Voltar</a>`;
+  const ultimo = {};
+  (D.no_ar||[]).forEach(v => { if(!v.removido && v.quando && (!ultimo[v.pref] || v.quando.t > ultimo[v.pref])) ultimo[v.pref] = v.quando.t; });
+  const fila = (D.fila||[]).filter(v => v.pref === pref);
+  const posts = (D.no_ar||[]).filter(v => v.pref === pref && !v.removido && v.quando).sort((a,b) => b.quando.t - a.quando.t).slice(0, 15);
+  const filaH = fila.length ? fila.map(v => `<div class="v" data-id="${esc(v.id)}"><img src="${capa(v.capa)}" alt="" loading="lazy"><div><div class="t">${v.id ? `<b class="nid">${esc(v.id)}</b> · ` : ""}${esc(v.titulo)}</div><div class="m">${dia(v.quando.br)} às <b>${hm(v.quando.br)}</b> (hora local) · ${falta(v.falta_min)}${v.qa != null ? " · QA " + String(v.qa).replace(".", ",") : ""}</div><a class="btn" href="/video?p=${encodeURIComponent((v.capa||"").replace("cover.jpg","video.mp4"))}" target="_blank">▶ Ver vídeo</a></div></div>`).join("")
+    : `<div class="vazio">Nenhum vídeo na fila.</div>`;
+  const postH = posts.length ? posts.map(v => `<div class="v" data-id="${esc(v.id)}"><img src="${capa(v.capa)}" alt="" loading="lazy"><div><div class="t">${v.id ? `<b class="nid">${esc(v.id)}</b> · ` : ""}${esc(v.titulo)}</div><div class="m">${dia(v.quando.br)} ${hm(v.quando.br)} · <b>${(v.views||0).toLocaleString("pt-BR")}</b> views</div>${v.link ? `<a class="btn" href="${esc(v.link)}" target="_blank" rel="noopener">Abrir no Instagram</a>` : ""}</div></div>`).join("")
+    : `<div class="vazio">Ainda não há vídeo postado.</div>`;
+  return `<div class="vtopo"><a class="voltar" href="#/">‹ Todos</a></div>
+  <div class="k-${pref}" style="${estiloK(pref)}"><div class="vhead"><div class="strip">${arte(pref, "v"+pref)}</div><div class="corpo"><div class="nome">${esc(p.handle)}</div><div class="l2" style="margin-top:4px"><b>${esc(p.rotulo)}</b></div><div class="l2">${linhaPadrao(p, ultimo)}</div>${extra(p)}</div></div>
+  <div class="sec"><h2>Fila para postar (${fila.length})</h2>${filaH}</div>
+  <div class="sec"><h2>Postados · toque para abrir no Instagram</h2>${postH}</div></div>`;
+}
+function desenhar(){
+  if(!D) return;
+  const m = location.hash.match(/^#\/(\w+)/);
+  $("app").innerHTML = m ? perfilView(m[1]) : home();
+}
+function achaCard(a){ return a === "tar" ? document.getElementById("tar-box") : document.querySelector('.perfil[data-pref="' + a + '"]'); }
+function marca(a, on){ const e = achaCard(a); if(e) e.classList.toggle("marcado", !!on); }
+function irCard(a, ev){ ev.stopPropagation(); const e = achaCard(a); if(!e) return; document.querySelector(".topo.on") && document.querySelector(".topo.on").classList.remove("on"); e.scrollIntoView({behavior:"smooth", block:"center"}); marca(a, 1); setTimeout(() => marca(a, 0), 3500); }
+function irPara(id, ev){
+  ev.preventDefault(); ev.stopPropagation();
+  const el = [...document.querySelectorAll(".v")].find(e => e.dataset.id === id);
+  document.querySelectorAll(".al.on").forEach(a => a.classList.remove("on"));
+  if(!el){ alert("Esse vídeo não está nas listas desta página (fila ou últimos postados)."); return; }
+  el.scrollIntoView({behavior:"smooth", block:"center"}); el.classList.add("pisca"); setTimeout(() => el.classList.remove("pisca"), 4000);
+}
+async function atualizar(){
+  try { D = await (await fetch("/api/estado", {cache:"no-store"})).json(); }
+  catch(e){ if(!D){ $("app").innerHTML = `<div class="topo bad"><h1>Sem conexão com o estúdio</h1><p>O PC pode estar desligado ou sem internet.</p></div>`; } return; }
+  if(document.querySelector(".al.on, .topo.on") || document.querySelector(".topo.tip:hover")) return; const y = window.scrollY; desenhar(); window.scrollTo(0, y);
+}
+window.addEventListener("hashchange", () => { desenhar(); window.scrollTo(0, 0); });
+atualizar(); setInterval(atualizar, 20000);
+</script>
+</body>
+</html>

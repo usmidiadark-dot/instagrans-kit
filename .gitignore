@@ -1,0 +1,17 @@
+node_modules/
+out/
+# dados do usuário: nunca vão para o Git
+.env
+.env.*
+!.env.example
+.kit-local.json
+logs/
+__pycache__/
+*.pyc
+*.bak-*
+# perfis do usuário (pastas na raiz que não são do kit)
+/*/
+!/_sistema/
+!/_modelo-perfil/
+!/GUIA/
+!/.claude/

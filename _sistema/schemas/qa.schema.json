@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "required": [
+    "scores",
+    "never_violations",
+    "verdict"
+  ],
+  "properties": {
+    "scores": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "never_violations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "verdict": {
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

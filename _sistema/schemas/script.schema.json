@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "script",
+  "type": "object",
+  "required": [
+    "profile",
+    "edition",
+    "title",
+    "format",
+    "duration_s",
+    "shots",
+    "caption"
+  ],
+  "properties": {
+    "profile": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string"
+    },
+    "series": {
+      "type": "object",
+      "properties": {
+        "part": {
+          "type": "integer"
+        },
+        "of": {
+          "type": "integer"
+        }
+      }
+    },
+    "duration_s": {
+      "type": "number"
+    },
+    "cast": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "description"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "shots": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "n",
+          "beat",
+          "t_start",
+          "t_end",
+          "camera",
+          "layers"
+        ],
+        "properties": {
+          "n": {
+            "type": "integer"
+          },
+          "beat": {
+            "type": "string"
+          },
+          "t_start": {
+            "type": "number"
+          },
+          "t_end": {
+            "type": "number"
+          },
+          "vo": {
+            "type": "string"
+          },
+          "on_screen": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                },
+                "style": {
+                  "type": "string"
+                },
+                "keyword": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "camera": {
+            "type": "object",
+            "required": [
+              "plane",
+              "move"
+            ],
+            "properties": {
+              "plane": {
+                "type": "string"
+              },
+              "move": {
+                "type": "string"
+              }
+            }
+          },
+          "layers": {
+            "type": "array",
+            "minItems": 3,
+            "items": {
+              "type": "string"
+            }
+          },
+          "character": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "expression": {
+                "type": "string"
+              },
+              "action": {
+                "type": "string"
+              }
+            }
+          },
+          "sfx": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "caption": {
+      "type": "string"
+    },
+    "hud": {
+      "type": "object",
+      "description": "HUD interativa (qualidade.hud). {rotulo?, passos:[{t, v}], caixa?:[x,y,w,h]} ou {contadores:[{rotulo, unidade?, passos:[{t, v}]}]}"
+    },
+    "dados": {
+      "type": "array",
+      "description": "cards de dado (inserts com tempo). [{t, ate, rotulo?, valor, unidade?, x?, y?, w?, h?, caixa?}]",
+      "items": {
+        "type": "object",
+        "required": [
+          "t",
+          "ate",
+          "valor"
+        ]
+      }
+    }
+  }
+}

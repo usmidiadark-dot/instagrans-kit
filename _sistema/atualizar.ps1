@@ -4,7 +4,7 @@ $ErrorActionPreference = "Stop"
 $Raiz = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 Set-Location $Raiz
 $url = "https://github.com/usmidiadark-dot/instagrans-kit/archive/refs/heads/main.zip"
-$tmp = Join-Path $env:TEMP ("kit-update-" + [guid]::NewGuid().ToString("N").Substring(0,8))
+$tmp = Join-Path ([System.IO.Path]::GetTempPath()) ("kit-update-" + [guid]::NewGuid().ToString("N").Substring(0,8))
 New-Item -ItemType Directory -Force $tmp | Out-Null
 Write-Host "Baixando a versao nova..."
 Invoke-WebRequest -Uri $url -OutFile "$tmp\kit.zip" -UseBasicParsing
@@ -21,6 +21,6 @@ foreach ($f in "CLAUDE.md","REGRAS-UNIVERSAIS.md","COMECE-AQUI.md","instalar.ps1
   if (Test-Path "$novo\$f") { Copy-Item "$novo\$f" "$Raiz\$f" -Force }
 }
 # perfis.yaml: nao sobrescreve (tem a lista de perfis do usuario)
-Remove-Item $tmp -Recurse -Force
+Remove-Item -LiteralPath $tmp -Recurse -Force -ErrorAction SilentlyContinue
 Write-Host "Atualizado. Rodando o verificador..." -ForegroundColor Green
 python _sistema\verificar.py

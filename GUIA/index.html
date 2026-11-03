@@ -63,6 +63,7 @@ th{font:600 12px var(--mono);text-transform:uppercase;letter-spacing:.06em;color
 tr:last-child td{border-bottom:0}
 footer{padding:40px 0 0;color:var(--mute);font-size:.9rem}
 @media (prefers-reduced-motion:no-preference){nav a{transition:background .15s}}
+@media print{nav{display:none}body::before{display:none}section{break-inside:avoid-page}.card,details,.flow li{break-inside:avoid}header{padding-top:8px}}
 </style>
 
 <nav aria-label="Seções"><div class="w">
@@ -93,16 +94,18 @@ footer{padding:40px 0 0;color:var(--mute);font-size:.9rem}
   </div>
   <p class="lead">Ou, se preferir fazer à mão:</p>
   <ol class="flow">
-    <li><b>Baixar o kit</b><small>Clone o repositório privado numa pasta sua (caminho curto, sem acento).</small></li>
+    <li><b>Baixar o kit</b><small>O Claude baixa o .zip público (sem login, sem Git) para uma pasta sua, de caminho curto e sem acento.</small></li>
     <li><b>Instalar Claude Code</b><small>E entrar com a sua conta. Cada pessoa usa a própria.</small></li>
-    <li><b>Rodar o instalador</b><small>Instala Node, Python, ffmpeg e Git, pacotes, e cria o arquivo de chaves.</small></li>
+    <li><b>Rodar o instalador</b><small>Instala Node, Python e ffmpeg, os pacotes e o navegador do vídeo, e cria o arquivo de chaves.</small></li>
     <li><b>Preencher o .env</b><small>Só o que for usar: Meta/Instagram, ElevenLabs. Nenhuma chave vem no kit.</small></li>
     <li class="key"><b>Abrir o Claude na pasta</b><small>Digite <code>claude</code> dentro da pasta do kit e peça: “quero criar um perfil novo”.</small></li>
   </ol>
-  <div class="cmd"><span>git clone &lt;endereço-do-repositório&gt; C:\INSTAGRANS-KIT
+  <div class="cmd"><span>Invoke-WebRequest https://github.com/usmidiadark-dot/instagrans-kit/archive/refs/heads/main.zip -OutFile $env:TEMP\kit.zip -UseBasicParsing
+Expand-Archive $env:TEMP\kit.zip $env:TEMP\kit-x -Force
+Move-Item $env:TEMP\kit-x\instagrans-kit-main C:\INSTAGRANS-KIT
 cd C:\INSTAGRANS-KIT
 powershell -ExecutionPolicy Bypass -File .\instalar.ps1</span><button type="button" data-copy>Copiar</button></div>
-  <div class="note"><b>Pasta curta:</b> use um caminho de até uns 60 caracteres (o Windows trava o vídeo em caminhos muito longos). <b>Fixo, sem perder nada:</b> escolha a pasta uma vez e não mova. Vídeos, perfis e configurações ficam dentro dela e não entram nas atualizações do Git. Se precisar mudar de lugar, mova a pasta inteira e rode o instalador de novo.</div>
+  <div class="note"><b>Pasta curta:</b> use um caminho de até uns 60 caracteres (o Windows trava o vídeo em caminhos muito longos). <b>Fixo, sem perder nada:</b> escolha a pasta uma vez e não mova. Vídeos, perfis e configurações ficam dentro dela e não são tocados nas atualizações. Se precisar mudar de lugar, mova a pasta inteira e rode o instalador de novo.</div>
 </section>
 
 <section id="perfil">
@@ -143,12 +146,12 @@ powershell -ExecutionPolicy Bypass -File .\instalar.ps1</span><button type="butt
 
 <section id="pastas">
   <h2>Onde fica cada coisa</h2>
-  <p class="lead">Tudo dentro da pasta do kit. As pastas dos seus perfis ficam fora do Git: atualizar o kit não mexe nelas.</p>
+  <p class="lead">Tudo dentro da pasta do kit. Atualizar o kit troca só o motor: as pastas dos seus perfis e o .env não são tocados.</p>
   <pre class="tree">INSTAGRANS-KIT/
 ├─ CLAUDE.md               regras lidas pelo Claude em toda conversa
 ├─ REGRAS-UNIVERSAIS.md    as regras fixas acima, com os valores
 ├─ perfis.yaml             valores comuns + lista dos perfis
-├─ .env                    suas chaves (nunca vai para o Git)
+├─ .env                    suas chaves (nunca saem do seu PC)
 ├─ instalar.ps1            instalação no Windows
 ├─ _sistema/               o motor (orquestrador, contratos, painel)
 ├─ _modelo-perfil/         perfil vazio + projeto de vídeo neutro
@@ -180,7 +183,7 @@ powershell -ExecutionPolicy Bypass -File .\instalar.ps1</span><button type="butt
     <tr><td>Conferir a fila</td><td><code>python _sistema/orquestrador/fila.py</code></td></tr>
     <tr><td>Abrir o painel</td><td><code>_sistema\painel\abrir-painel.cmd</code> (abre no navegador)</td></tr>
     <tr><td>Pausar um perfil</td><td>Em <code>perfil.yaml</code>: <code>producao_auto: false</code></td></tr>
-    <tr><td>Atualizar o kit</td><td><code>git pull</code> (seus perfis não são tocados)</td></tr>
+    <tr><td>Atualizar o kit</td><td>No Claude: “atualize o kit” (roda <code>_sistematualizar.ps1</code>; seus perfis não são tocados)</td></tr>
   </table></div>
 </section>
 
